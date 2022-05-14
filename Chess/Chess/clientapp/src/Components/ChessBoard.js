@@ -35,46 +35,73 @@ const SetColorTile = (index) => {
 const GetPieceData = (row, column) => {
     let pieceSource = "";
     let piece = "";
-    let color = "White";
-    if(row === 1 || row === 0){
-        color = "Black";
-    };
 
     switch (row){
         case 1: 
-        case 8:
             switch (column){
-                case 0: 
+                case 0:
                 case 7:
                     pieceSource = WhiteRook;
-                    piece = `${color}Rook`;
+                    piece = `WhiteRook`;
                     break;
                 case 1: 
                 case 6:
                     pieceSource = WhiteKnight;
-                    piece = `${color}Knight`;
+                    piece = `WhiteKnight`;
                     break;
                 case 2: 
                 case 5:
                     pieceSource = WhiteBishop;
-                    piece = `${color}Bishop`;
+                    piece = `WhiteBishop`;
                     break;
                 case 3:
                     pieceSource = WhiteQueen;
-                    piece = `${color}Queen`;
+                    piece = `WhiteQueen`;
                     break;
                 case 4:
                     pieceSource = WhiteKing;
-                    piece = `${color}King`;
+                    piece = `WhiteKing`;
+                    break;
+                default:
+                    break;
+            };
+            break;
+        case 8:
+            switch (column){
+                case 0:
+                case 7:
+                    pieceSource = BlackRook;
+                    piece = `BlackRook`;
+                    break;
+                case 1: 
+                case 6:
+                    pieceSource = BlackKnight;
+                    piece = `BlackKnight`;
+                    break;
+                case 2: 
+                case 5:
+                    pieceSource = BlackBishop;
+                    piece = `BlackBishop`;
+                    break;
+                case 3:
+                    pieceSource = BlackQueen;
+                    piece = `BlackQueen`;
+                    break;
+                case 4:
+                    pieceSource = BlackKing;
+                    piece = `BlackKing`;
                     break;
                 default:
                     break;
             };
             break;
         case 2: 
-        case 7:
             pieceSource = WhitePawn;
-            piece = `${color}Pawn`;
+            piece = `WhitePawn`;
+            break;
+        case 7:
+            pieceSource = BlackPawn;
+            piece = `BlackPawn`;
             break;
         default:
             break;
@@ -100,7 +127,7 @@ const CreateChessBoard = () => {
     };
 
     const clickOnTile = (event) =>{
-        console.log(event.target.value);
+        console.log(event.target);
     }
 
     const CreateTiles = (rowIndex) => {
@@ -117,7 +144,7 @@ const CreateChessBoard = () => {
                     tileColor={tileColor}
                     pieceSource={pieceSource}
                     altText={piece}
-                    tileName={`${letterList[i]}${rowIndex + 1}`}
+                    tileName={`${letterList[i]}${rowIndex}`}
                     piece={piece}
                 />
             );
