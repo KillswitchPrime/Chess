@@ -1,10 +1,29 @@
-import './App.css';
-import React from 'react';
+import './Chess.css';
+import React, {useState} from 'react';
+import CreateChessBoard from './Components/ChessBoard';
+import CreateMainMenuButtons from './Components/MainMenuButtons';
 
-export default CreateMainMenu = () => {
-  return (
-    <div className="main">
-      
-    </div>
-  );
-}
+const CreateMainMenu = () => {
+    const [showChessBoard, changeShowChessBoard] = useState(false);
+
+    const handleClickShowChessBoard = (event) =>{
+        changeShowChessBoard(true);
+    }
+
+    let chessBoard = null;
+    let mainMenuButtons = <CreateMainMenuButtons handleClickShowChessBoard={handleClickShowChessBoard}/>
+
+    if(showChessBoard){
+        mainMenuButtons = null;
+        chessBoard = <CreateChessBoard/>;
+    }
+
+    return (
+        <div className="main">
+            {mainMenuButtons}
+            {chessBoard}
+        </div>  
+    );
+};
+
+export default CreateMainMenu;

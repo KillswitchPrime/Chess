@@ -1,0 +1,28 @@
+.whiteTile{
+    background-color: blanchedalmond;
+}
+
+.blackTile{
+    background-color: seagreen;
+}
+
+.tile{
+    margin: 0;
+    padding: 3.6rem;
+}
+
+.tile:hover{
+    background-color: aqua;
+}
+
+.main-menu-button{
+    margin: 1rem;
+}
+
+.tileRow{
+    flex-wrap: nowrap;
+}
+
+.chessPiece{
+    transform: scale(3);
+}
