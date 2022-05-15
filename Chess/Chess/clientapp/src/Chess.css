@@ -9,6 +9,8 @@
 .tile{
     margin: 0;
     padding: 3.7rem;
+    user-select: none;
+    -moz-user-select: none;
 }
 
 .tile:hover{
@@ -25,4 +27,5 @@
 
 .chessPiece{
     transform: scale(3);
+    pointer-events: none;
 }
