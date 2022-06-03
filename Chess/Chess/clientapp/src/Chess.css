@@ -1,3 +1,7 @@
+body{
+    background-color: gray;
+}
+
 .whiteTile{
     background-color: blanchedalmond;
 }
@@ -8,9 +12,11 @@
 
 .tile{
     margin: 0;
-    padding: 3.7rem;
+    padding: 3.5rem;
     user-select: none;
     -moz-user-select: none;
+    width: fit-content;
+    min-width: 6.23%;
 }
 
 .tile:hover{

@@ -10,18 +10,15 @@ const CreateMainMenu = () => {
         changeShowChessBoard(true);
     }
 
-    let renderChessBoard = null;
-    let mainMenuButtons = (<CreateMainMenuButtons handleClickShowChessBoard={handleClickShowChessBoard}/>);
+    let componentToRender = (<CreateMainMenuButtons handleClickShowChessBoard={handleClickShowChessBoard}/>);
     if(showChessBoard){
-        mainMenuButtons = null;
-        renderChessBoard = (<CreateChessBoard/>);
+        componentToRender = (<CreateChessBoard/>);
     };
 
     return (
-        <div className="main">
-            {mainMenuButtons}
-            {renderChessBoard}
-        </div>  
+        <main className="container-fluid mx-auto main">
+            {componentToRender}
+        </main>  
     );
 };
 

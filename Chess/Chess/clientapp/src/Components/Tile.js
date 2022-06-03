@@ -1,6 +1,4 @@
 import React from 'react';
-import Col from 'react-bootstrap/Col';
-import '../Chess.css';
 
 /**
  * @param {function} mouseDownOnTile
@@ -14,9 +12,15 @@ import '../Chess.css';
  */
 const Tile = (props) => {
     return (
-        <Col data-index={props.index} data-tile-name={props.tileName} data-piece={props.piece} onMouseDown={props.mouseDownOnTile} onMouseUp={props.releaseOnTile} className={`tile ${props.tileColor}`}>
+        <div data-index={props.index} 
+            data-tile-name={props.tileName} 
+            data-piece={props.piece} 
+            onMouseDown={props.mouseDownOnTile} 
+            onMouseUp={props.releaseOnTile} 
+            className={`col-1 tile ${props.tileColor}`}
+        >
             <img className="chessPiece" src={props.pieceSource} alt={props.altText}/>
-        </Col>
+        </div>
     );
 };
 

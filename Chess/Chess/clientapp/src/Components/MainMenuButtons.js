@@ -1,21 +1,20 @@
-import '../Chess.css';
 import React from 'react';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 
 const CreateMainMenuButtons = (props) => {
     return(
-        <Row>
-            <Col>
-                <Button className="main-menu-button" onClick={props.handleClickShowChessBoard}>
-                    Play against bot
-                </Button>
-                <Button className="main-menu-button" variant="primary" onClick={props.handleClickShowChessBoard}>
-                    Play against player
-                </Button>
-            </Col>
-        </Row>
+        <div className="row mx-auto">
+            <div className="col-6 mx-auto">
+                <div className="d-grid gap-3">
+                    <Button className="main-menu-button" variant="success" onClick={props.handleClickShowChessBoard} size="lg">
+                        Play against bot
+                    </Button>
+                    <Button className="main-menu-button" variant="success" onClick={props.handleClickShowChessBoard} size="lg">
+                        Play against player
+                    </Button>
+                </div>
+            </div>
+        </div>
     );
 }
 
