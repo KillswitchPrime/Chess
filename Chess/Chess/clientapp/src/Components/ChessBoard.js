@@ -1,13 +1,61 @@
 import React, {useEffect, useState} from 'react';
 import CreateTiles from './CreateTileList';
+import CreateRows from './CreateRows';
+import PieceMap from './CreatePieceImage';
+import GetPieceData from './CreatePieceData';
 
-let hasClicked = false;
+const LetterList = ['A','B','C','D','E','F','G','H'];
+
+const SetColorTile = (index) => {
+    let tileName = "whiteTile";
+    let otherTile = "blackTile";
+
+    if(index % 2 === 0){
+        tileName = "blackTile";
+        otherTile = "whiteTile";
+    };
+
+    return [tileName, otherTile];
+};
 
 const CreateChessBoard = () => {
+    const [tileList, setTileList] = useState([]);
+    const [selectedPiece, setPiece] = useState({});
+    const [tileMovedTo, setTile] = useState({});
+    
+    useEffect(() => {
+        setTileList(PopulateTileList());
+    },[]);
+
+    const PopulateTileList = () => {
+        let tiles = [];
+        let index = 0;
+        for(let i = 0; i < 8; i++){
+            let [tileColor, otherTile] = SetColorTile(i);
+            for(let j = 0; j < 8; j++){
+                    const piece = GetPieceData(i, j);
+                    
+                    tiles.push({
+                            mouseDownOnTile: mouseDownOnTile,
+                            releaseOnTile: releaseOnTile,
+                            index: index,
+                            tileColor: tileColor,
+                            pieceSource: PieceMap.get(piece),
+                            altText: piece,
+                            tileName: `${LetterList[j]}${i + 1}`,
+                            piece: piece
+                        }
+                    );
+        
+                    [tileColor, otherTile] = [otherTile, tileColor];
+                    index++;
+                }
+            }
+        
+        return tiles;
+    };
+
     const releaseOnTile = (event) => {
-        if(hasClicked === false){
-            return;
-        };
 
         const {tileName, piece, index} = event.currentTarget.dataset;
 
@@ -17,11 +65,9 @@ const CreateChessBoard = () => {
             index
         });
 
-        if(selectedPiece.index === movedToTile.index){
+        if(selectedPiece.index === tileMovedTo.index){
             return;
         };
-
-         console.log(movedToTile);
 
         // const currentTile= tileList[selectedPiece.index];
 
@@ -29,14 +75,10 @@ const CreateChessBoard = () => {
 
         // currentTile.dataset.piece = piece;
         // currentTile.firstChild.src = PieceMap.get(piece);
-
-        hasClicked = false;
     }
 
     const mouseDownOnTile = (event) => {
         const {tileName, piece, index} = event.currentTarget.dataset;
-
-        hasClicked = true;
 
         setPiece({
             tileName,
@@ -44,41 +86,10 @@ const CreateChessBoard = () => {
             index
         });
 
-        console.log(selectedPiece);
+        console.log(tileList);
     }
-    
-    const [tileList, updateTileList] = useState(CreateTiles(mouseDownOnTile, releaseOnTile));
-    const [board, setBoard] = useState([]);
-    const [selectedPiece, setPiece] = useState({});
-    const [movedToTile, setTile] = useState({});
 
-    useEffect(() => {
-        setBoard(CreateRows(tileList));
-        updateTileList(tileList);
-    },[]);
-
-    const CreateRows = (tileList) => {
-        let chessBoard = [];
-        let index = 0;
-
-        for(let i = 0; i < 8; i++){
-            let tileRow = [];
-            for(let j = 0; j<8; j++){
-                tileRow.push(tileList[index]);
-                index++;
-            }
-
-            chessBoard.push(
-                <div key={i} className="row justify-content-center tileRow mx-auto">
-                    {tileRow.map(x => x)}
-                </div>
-            );
-        };
-
-        return chessBoard;
-    };
-
-    return board.reverse().map(x => x);
+    return CreateRows(CreateTiles(tileList)).reverse().map(x => x);
 };
 
 export default CreateChessBoard;
