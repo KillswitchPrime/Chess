@@ -15,8 +15,9 @@ body{
     padding: 3.5rem;
     user-select: none;
     -moz-user-select: none;
-    width: fit-content;
-    min-width: 6.23%;
+    width: 10rem;
+    height: 10rem;
+    
 }
 
 .tile:hover{
