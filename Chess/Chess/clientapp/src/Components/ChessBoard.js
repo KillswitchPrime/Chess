@@ -3,6 +3,7 @@ import CreateTiles from './CreateTileList';
 import CreateRows from './CreateRows';
 import PieceMap from './PieceMap';
 import GetPieceData from './CreatePieceData';
+import IsValidProp from './Validator';
 
 const LetterList = ['A','B','C','D','E','F','G','H'];
 
@@ -21,10 +22,28 @@ const SetColorTile = (index) => {
 const CreateChessBoard = () => {
     const [tileList, setTileList] = useState([]);
     const [turnNumber, setTurnNumber] = useState(0);
+    const [turnHistory, setTurnHistory] = useState([])
     
     useEffect(() => {
         setTileList(PopulateTileList());
     },[]);
+
+    const CreateTurnHistory = (turnHistory) => {
+        if(IsValidProp(turnHistory) === false){
+            return null;
+        }
+        console.log(turnHistory)
+        const tableRows = turnHistory.map((element, index) => {
+            return (
+                <tr key={index}>
+                    <td>{element.turnNumber}</td>
+                    <td>{element.move}</td>
+                </tr>
+            );
+        });
+
+        return tableRows;
+    };
 
     const PopulateTileList = () => {
         let tiles = [];
@@ -64,17 +83,35 @@ const CreateChessBoard = () => {
                         tileList, 
                         setTileList,
                         turnNumber, 
-                        setTurnNumber
+                        setTurnNumber,
+                        setTurnHistory
                     ))
                     .reverse()
                     .map(x => x)
                 }
             </section>
-            <aside className="turn-text d-flex align-items-center">
+            <aside className="turn-text">
                 <div className="row">
                     <div className="col-12">
                         <h1 className="">{playersTurnText}</h1>
+                    </div>
+                    <div className="col-12">
                         <h2>Current turn: {turnNumber + 1}</h2>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-12">
+                        <table className="table table-striped table-dark">
+                            <thead>
+                                <tr>
+                                    <th>Turn number</th>
+                                    <th>Move</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {CreateTurnHistory(turnHistory)}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </aside>

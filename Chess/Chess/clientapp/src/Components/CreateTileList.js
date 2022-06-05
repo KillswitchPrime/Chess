@@ -1,7 +1,7 @@
 import React from 'react';
 import Tile from './Tile';
 
-const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber) => {
+const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHistory) => {
     let selectedPiece = null;
     let currentColorTurn = turnNumber % 2 === 0 ? "White" : "Black";
 
@@ -38,7 +38,9 @@ const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber) => {
 
         const updatedTileList = movePiece(tileList, parsedIndex, selectedPiece.parsedIndex);
 
+        const selectedPieceCopy = {...selectedPiece};
         selectedPiece = null;
+        setTurnHistory(turnHistory => turnHistory.concat([{turnNumber: turnNumber + 1, move: `${selectedPieceCopy.tileName} -> ${tileName}`}]));
         setTurnNumber(turnNumber => turnNumber + 1);
         setTileList(updatedTileList);
     }
@@ -57,7 +59,10 @@ const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber) => {
 
         if(selectedPiece !== null && parsedIndex !== selectedPiece.parsedIndex){
             const updatedTileList = movePiece(tileList, parsedIndex, selectedPiece.parsedIndex);
+
+            const selectedPieceCopy = {...selectedPiece};
             selectedPiece = null;
+            setTurnHistory(turnHistory => turnHistory.concat([{turnNumber: turnNumber + 1, move: `${selectedPieceCopy.tileName} -> ${tileName}`}]));
             setTurnNumber(turnNumber => turnNumber + 1);
             setTileList(updatedTileList);
         };
@@ -68,8 +73,6 @@ const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber) => {
             parsedIndex,
             piecesource
         };
-
-        console.log(selectedPiece)
     };
 
     let tiles = tileList.map((element, index) =>
