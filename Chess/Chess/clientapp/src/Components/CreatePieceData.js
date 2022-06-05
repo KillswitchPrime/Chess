@@ -1,8 +1,10 @@
 const GetPieceData = (row, column) => {
     let piece = "";
-    let colorPrefix = "White";
-    if(row === 6 || row === 7){
-        colorPrefix = "Black";
+    let pieceColor = "";
+    if(row === 0 || row === 1){
+        pieceColor = "White";
+    }else if(row === 6 || row === 7){
+        pieceColor = "Black";
     };
 
     switch (row){
@@ -11,21 +13,21 @@ const GetPieceData = (row, column) => {
             switch (column){
                 case 0:
                 case 7:
-                    piece = `${colorPrefix}Rook`;
+                    piece = `Rook`;
                     break;
                 case 1: 
                 case 6:
-                    piece = `${colorPrefix}Knight`;
+                    piece = `Knight`;
                     break;
                 case 2: 
                 case 5:
-                    piece = `${colorPrefix}Bishop`;
+                    piece = `Bishop`;
                     break;
                 case 3:
-                    piece = `${colorPrefix}Queen`;
+                    piece = `Queen`;
                     break;
                 case 4:
-                    piece = `${colorPrefix}King`;
+                    piece = `King`;
                     break;
                 default:
                     break;
@@ -33,13 +35,13 @@ const GetPieceData = (row, column) => {
             break;
         case 1: 
         case 6:
-            piece = `${colorPrefix}Pawn`;
+            piece = `Pawn`;
             break;
         default:
             break;
     };
 
-    return piece;
+    return [pieceColor, piece];
 };
 
 export default GetPieceData;

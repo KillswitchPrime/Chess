@@ -51,14 +51,15 @@ const CreateChessBoard = () => {
         for(let i = 0; i < 8; i++){
             let [tileColor, otherTile] = SetColorTile(i);
             for(let j = 0; j < 8; j++){
-                    const piece = GetPieceData(i, j);
+                    const [pieceColor, piece] = GetPieceData(i, j);
                     
                     tiles.push({
                             index: index,
                             tileColor: tileColor,
-                            pieceSource: PieceMap.get(piece),
+                            pieceSource: PieceMap.get(`${pieceColor}${piece}`),
                             tileName: `${LetterList[j]}${i + 1}`,
-                            piece: piece
+                            piece: piece,
+                            pieceColor: pieceColor
                         }
                     );
         
@@ -100,8 +101,8 @@ const CreateChessBoard = () => {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-12">
-                        <table className="table table-striped table-dark">
+                    <div className="col-12 history-table">
+                        <table className="table table-striped table-bordered table-dark">
                             <thead>
                                 <tr>
                                     <th>Turn number</th>

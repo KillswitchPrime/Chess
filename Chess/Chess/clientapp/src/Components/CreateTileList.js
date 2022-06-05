@@ -11,10 +11,12 @@ const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHi
             if(i === indexOfTileMovedTo){
                 tileData.pieceSource = selectedPiece.piecesource;
                 tileData.piece = selectedPiece.piece;
+                tileData.pieceColor = selectedPiece.piececolor;
             }
             if(i === indexOfTileMovedFrom){
                 tileData.pieceSource = "";
                 tileData.piece = "";
+                tileData.pieceColor = "";
             };
 
 
@@ -29,7 +31,7 @@ const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHi
             return;
         };
 
-        const {tileName, piece, index, piecesource} = event.currentTarget.dataset;
+        const {tileName, piece, piececolor, index, piecesource} = event.currentTarget.dataset;
         const parsedIndex = parseInt(index);
 
         if(selectedPiece.parsedIndex === parsedIndex){
@@ -50,10 +52,10 @@ const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHi
             return;
         };
 
-        const {tileName, piece, index, piecesource} = event.currentTarget.dataset;
+        const {tileName, piece, piececolor, index, piecesource} = event.currentTarget.dataset;
         const parsedIndex = parseInt(index);
 
-        if(piece === "" || piece.startsWith(currentColorTurn) === false){
+        if(piece === "" || piececolor !== currentColorTurn){
             return;
         };
 
@@ -62,7 +64,7 @@ const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHi
 
             const selectedPieceCopy = {...selectedPiece};
             selectedPiece = null;
-            setTurnHistory(turnHistory => turnHistory.concat([{turnNumber: turnNumber + 1, move: `${selectedPieceCopy.tileName} -> ${tileName}`}]));
+            setTurnHistory(turnHistory => turnHistory.concat([{turnNumber: turnNumber + 1, move: `${selectedPieceCopy.tileName}  ->  ${tileName}`}]));
             setTurnNumber(turnNumber => turnNumber + 1);
             setTileList(updatedTileList);
         };
@@ -70,6 +72,7 @@ const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHi
         selectedPiece = {
             tileName,
             piece,
+            piececolor,
             parsedIndex,
             piecesource
         };
@@ -84,9 +87,10 @@ const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHi
                 index={index}
                 tileColor={element.tileColor}
                 pieceSource={element.pieceSource}
-                altText={element.piece}
+                altText={`${element.pieceColor}${element.piece}`}
                 tileName={element.tileName}
                 piece={element.piece}
+                pieceColor={element.pieceColor}
             />);
     });
     

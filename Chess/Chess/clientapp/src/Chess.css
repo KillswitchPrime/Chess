@@ -39,11 +39,16 @@ body{
 
 .turn-text{
     color: white;
-    width: 19rem;
+    width: 15vw;
 }
 
 .chess-board{
 }
 
 .main{
+}
+
+.history-table{
+    max-height: 90vh;
+    overflow-y: auto;
 }

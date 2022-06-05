@@ -7,6 +7,7 @@ import React from 'react';
  * @param {string} pieceSource
  * @param {string} tileName
  * @param {string} piece
+ * @param {string} pieceColor
  * @param {Number} index
  */
 const Tile = (props) => {
@@ -14,6 +15,7 @@ const Tile = (props) => {
         <div data-index={props.index} 
             data-tile-name={props.tileName} 
             data-piece={props.piece}
+            data-piececolor={props.pieceColor}
             data-piecesource={props.pieceSource}
             onMouseDown={props.mouseDownOnTile} 
             onMouseUp={props.releaseOnTile} 
