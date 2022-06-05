@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import CreateChessBoard from './Components/ChessBoard';
 import CreateMainMenuButtons from './Components/MainMenuButtons';
 
-const CreateMainMenu = () => {
+const CreateChessClient = () => {
     const [showChessBoard, changeShowChessBoard] = useState(false);
 
     const handleClickShowChessBoard = (event) =>{
@@ -15,11 +15,13 @@ const CreateMainMenu = () => {
         componentToRender = (<CreateChessBoard/>);
     };
 
+    componentToRender = (<CreateChessBoard/>);
+    
     return (
-        <main className="container-fluid mx-auto main">
+        <main className="container-fluid mx-auto main text-center d-flex justify-content-evenly">
             {componentToRender}
         </main>  
     );
 };
 
-export default CreateMainMenu;
+export default CreateChessClient;

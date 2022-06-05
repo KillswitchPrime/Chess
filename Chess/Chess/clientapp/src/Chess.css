@@ -36,3 +36,14 @@ body{
     transform: scale(3);
     pointer-events: none;
 }
+
+.turn-text{
+    color: white;
+    width: 19rem;
+}
+
+.chess-board{
+}
+
+.main{
+}

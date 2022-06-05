@@ -1,11 +1,30 @@
 import React from 'react';
 import Tile from './Tile';
 
-const CreateTiles = (tileList, setTileList) => {
+const CreateTiles = (tileList, setTileList, setTurnNumber) => {
     let selectedPiece = null;
 
+    const movePiece = (listOfTiles, indexOfTileMovedTo, indexOfTileMovedFrom) => {
+        let updatedTileList = listOfTiles.map((element, i) => {
+            let tileData = {...element};
+            if(i === indexOfTileMovedTo){
+                tileData.pieceSource = selectedPiece.piecesource;
+                tileData.piece = selectedPiece.piece;
+            }
+            if(i === indexOfTileMovedFrom){
+                tileData.pieceSource = "";
+                tileData.piece = "";
+            };
+
+
+            return tileData;
+        });
+
+        return updatedTileList;
+    };
+
     const releaseOnTile = (event) => {
-        if(event.button === 2){
+        if(event.button === 2 || selectedPiece === null){
             return;
         };
 
@@ -16,21 +35,10 @@ const CreateTiles = (tileList, setTileList) => {
             return;
         };
 
-        let updatedTileList = tileList.map((element, i) => {
-            let tileData = {...element};
-            if(i === parsedIndex){
-                tileData.pieceSource = selectedPiece.piecesource;
-                tileData.piece = selectedPiece.piece;
-            }
-            if(i === selectedPiece.parsedIndex){
-                tileData.pieceSource = "";
-                tileData.piece = "";
-            };
+        const updatedTileList = movePiece(tileList, parsedIndex, selectedPiece.parsedIndex);
 
-
-            return tileData;
-        });
-
+        selectedPiece = null;
+        setTurnNumber(turnNumber => turnNumber + 1);
         setTileList(updatedTileList);
     }
 
@@ -41,6 +49,13 @@ const CreateTiles = (tileList, setTileList) => {
 
         const {tileName, piece, index, piecesource} = event.currentTarget.dataset;
         const parsedIndex = parseInt(index);
+
+        if(selectedPiece !== null){
+            const updatedTileList = movePiece(tileList, parsedIndex, selectedPiece.parsedIndex);
+            selectedPiece = null;
+            setTurnNumber(turnNumber => turnNumber + 1);
+            setTileList(updatedTileList);
+        };
 
         selectedPiece = {
             tileName,

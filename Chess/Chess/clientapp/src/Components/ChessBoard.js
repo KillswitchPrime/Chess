@@ -20,6 +20,7 @@ const SetColorTile = (index) => {
 
 const CreateChessBoard = () => {
     const [tileList, setTileList] = useState([]);
+    const [turnNumber, setTurnNumber] = useState(0);
     
     useEffect(() => {
         setTileList(PopulateTileList());
@@ -50,7 +51,34 @@ const CreateChessBoard = () => {
         return tiles;
     };
 
-    return CreateRows(CreateTiles(tileList, setTileList)).reverse().map(x => x);
+    let playersTurnText = "It is Blacks turn!";
+    if(turnNumber % 2 === 0){
+        playersTurnText = "It is Whites turn!";
+    }
+
+    return (
+        <>
+            <section className="chess-board">
+                {
+                    CreateRows(CreateTiles(
+                        tileList, 
+                        setTileList, 
+                        setTurnNumber
+                    ))
+                    .reverse()
+                    .map(x => x)
+                }
+            </section>
+            <aside className="turn-text d-flex align-items-center">
+                <div className="row">
+                    <div className="col-12">
+                        <h1 className="">{playersTurnText}</h1>
+                        <h2>Current turn: {turnNumber + 1}</h2>
+                    </div>
+                </div>
+            </aside>
+        </>
+    );
 };
 
 export default CreateChessBoard;
