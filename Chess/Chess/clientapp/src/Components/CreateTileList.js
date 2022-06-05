@@ -64,7 +64,7 @@ const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHi
 
             const selectedPieceCopy = {...selectedPiece};
             selectedPiece = null;
-            setTurnHistory(turnHistory => turnHistory.concat([{turnNumber: turnNumber + 1, move: `${selectedPieceCopy.tileName}  ->  ${tileName}`}]));
+            setTurnHistory(turnHistory => turnHistory.concat([{turnNumber: turnNumber + 1, move: `${selectedPieceCopy.tileName} -> ${tileName}`}]));
             setTurnNumber(turnNumber => turnNumber + 1);
             setTileList(updatedTileList);
         };
