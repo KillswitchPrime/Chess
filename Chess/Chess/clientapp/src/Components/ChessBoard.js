@@ -62,7 +62,8 @@ const CreateChessBoard = () => {
                 {
                     CreateRows(CreateTiles(
                         tileList, 
-                        setTileList, 
+                        setTileList,
+                        turnNumber, 
                         setTurnNumber
                     ))
                     .reverse()

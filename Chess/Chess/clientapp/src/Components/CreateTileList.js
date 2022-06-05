@@ -1,8 +1,9 @@
 import React from 'react';
 import Tile from './Tile';
 
-const CreateTiles = (tileList, setTileList, setTurnNumber) => {
+const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber) => {
     let selectedPiece = null;
+    let currentColorTurn = turnNumber % 2 === 0 ? "White" : "Black";
 
     const movePiece = (listOfTiles, indexOfTileMovedTo, indexOfTileMovedFrom) => {
         let updatedTileList = listOfTiles.map((element, i) => {
@@ -50,7 +51,11 @@ const CreateTiles = (tileList, setTileList, setTurnNumber) => {
         const {tileName, piece, index, piecesource} = event.currentTarget.dataset;
         const parsedIndex = parseInt(index);
 
-        if(selectedPiece !== null){
+        if(piece === "" || piece.startsWith(currentColorTurn) === false){
+            return;
+        };
+
+        if(selectedPiece !== null && parsedIndex !== selectedPiece.parsedIndex){
             const updatedTileList = movePiece(tileList, parsedIndex, selectedPiece.parsedIndex);
             selectedPiece = null;
             setTurnNumber(turnNumber => turnNumber + 1);
