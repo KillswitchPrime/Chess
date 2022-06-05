@@ -1,30 +1,30 @@
 import React from 'react';
 import Tile from './Tile';
 
+const movePiece = (listOfTiles, indexOfTileMovedTo, indexOfTileMovedFrom, selectedPiece) => {
+    let updatedTileList = listOfTiles.map((element, i) => {
+        let tileData = {...element};
+        if(i === indexOfTileMovedTo){
+            tileData.pieceSource = selectedPiece.piecesource;
+            tileData.piece = selectedPiece.piece;
+            tileData.pieceColor = selectedPiece.piececolor;
+        }
+        if(i === indexOfTileMovedFrom){
+            tileData.pieceSource = "";
+            tileData.piece = "";
+            tileData.pieceColor = "";
+        };
+
+
+        return tileData;
+    });
+
+    return updatedTileList;
+};
+
 const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHistory) => {
     let selectedPiece = null;
     let currentColorTurn = turnNumber % 2 === 0 ? "White" : "Black";
-
-    const movePiece = (listOfTiles, indexOfTileMovedTo, indexOfTileMovedFrom) => {
-        let updatedTileList = listOfTiles.map((element, i) => {
-            let tileData = {...element};
-            if(i === indexOfTileMovedTo){
-                tileData.pieceSource = selectedPiece.piecesource;
-                tileData.piece = selectedPiece.piece;
-                tileData.pieceColor = selectedPiece.piececolor;
-            }
-            if(i === indexOfTileMovedFrom){
-                tileData.pieceSource = "";
-                tileData.piece = "";
-                tileData.pieceColor = "";
-            };
-
-
-            return tileData;
-        });
-
-        return updatedTileList;
-    };
 
     const releaseOnTile = (event) => {
         if(event.button === 2 || selectedPiece === null){
@@ -38,7 +38,7 @@ const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHi
             return;
         };
 
-        const updatedTileList = movePiece(tileList, parsedIndex, selectedPiece.parsedIndex);
+        const updatedTileList = movePiece(tileList, parsedIndex, selectedPiece.parsedIndex, selectedPiece);
 
         const selectedPieceCopy = {...selectedPiece};
         selectedPiece = null;
@@ -60,7 +60,7 @@ const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHi
         };
 
         if(selectedPiece !== null && parsedIndex !== selectedPiece.parsedIndex){
-            const updatedTileList = movePiece(tileList, parsedIndex, selectedPiece.parsedIndex);
+            const updatedTileList = movePiece(tileList, parsedIndex, selectedPiece.parsedIndex, selectedPiece);
 
             const selectedPieceCopy = {...selectedPiece};
             selectedPiece = null;
