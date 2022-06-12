@@ -2,11 +2,11 @@ body{
     background-color: gray;
 }
 
-.whiteTile{
+.lightTile{
     background-color: blanchedalmond;
 }
 
-.blackTile{
+.darkTile{
     background-color: seagreen;
 }
 
@@ -51,4 +51,12 @@ body{
 .history-table{
     max-height: 90vh;
     overflow-y: auto;
+}
+
+.legalMove{
+    border-radius: 50%;
+    background-color: darkslateblue;
+    opacity: 70%;
+    width: 2.5rem;
+    height: 2.5rem;
 }

@@ -91,6 +91,7 @@ const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHi
                 tileName={element.tileName}
                 piece={element.piece}
                 pieceColor={element.pieceColor}
+                canMoveTo={element.canMoveTo}
             />);
     });
     

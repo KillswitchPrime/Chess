@@ -8,13 +8,9 @@ import IsValidProp from './Validator';
 const LetterList = ['A','B','C','D','E','F','G','H'];
 
 const SetColorTile = (index) => {
-    let tileName = "whiteTile";
-    let otherTile = "blackTile";
-
-    if(index % 2 === 0){
-        tileName = "blackTile";
-        otherTile = "whiteTile";
-    };
+    const [tileName, otherTile] = index % 2 !== 0 ? 
+        ["lightTile", "darkTile"] : 
+        ["darkTile", "lightTile"];
 
     return [tileName, otherTile];
 };
@@ -32,7 +28,7 @@ const CreateChessBoard = () => {
         if(IsValidProp(turnHistory) === false){
             return null;
         }
-        console.log(turnHistory)
+        
         const tableRows = turnHistory.map((element, index) => {
             return (
                 <tr key={index}>
@@ -51,22 +47,22 @@ const CreateChessBoard = () => {
         for(let i = 0; i < 8; i++){
             let [tileColor, otherTile] = SetColorTile(i);
             for(let j = 0; j < 8; j++){
-                    const [pieceColor, piece] = GetPieceData(i, j);
-                    
-                    tiles.push({
-                            index: index,
-                            tileColor: tileColor,
-                            pieceSource: PieceMap.get(`${pieceColor}${piece}`),
-                            tileName: `${LetterList[j]}${i + 1}`,
-                            piece: piece,
-                            pieceColor: pieceColor
-                        }
-                    );
-        
-                    [tileColor, otherTile] = [otherTile, tileColor];
-                    index++;
-                }
+                const [pieceColor, piece] = GetPieceData(i, j);
+                
+                tiles.push({
+                    index: index,
+                    tileColor: tileColor,
+                    pieceSource: PieceMap.get(`${pieceColor}${piece}`),
+                    tileName: `${LetterList[j]}${i + 1}`,
+                    piece: piece,
+                    pieceColor: pieceColor,
+                    canMoveTo: false
+                });
+    
+                [tileColor, otherTile] = [otherTile, tileColor];
+                index++;
             }
+        }
         
         return tiles;
     };
@@ -87,7 +83,7 @@ const CreateChessBoard = () => {
                         setTurnNumber,
                         setTurnHistory
                     ))
-                    .reverse()
+                    .reverse() //Put into function when deciding player color.
                     .map(x => x)
                 }
             </section>
@@ -105,7 +101,7 @@ const CreateChessBoard = () => {
                         <table className="table table-striped table-bordered table-dark">
                             <thead>
                                 <tr>
-                                    <th>Turn number</th>
+                                    <th>Turn</th>
                                     <th>Move</th>
                                 </tr>
                             </thead>

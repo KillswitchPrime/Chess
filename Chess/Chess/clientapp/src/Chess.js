@@ -15,6 +15,7 @@ const CreateChessClient = () => {
         componentToRender = (<CreateChessBoard/>);
     };
 
+    //DELETE LATER.
     componentToRender = (<CreateChessBoard/>);
     
     return (

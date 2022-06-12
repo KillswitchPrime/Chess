@@ -9,8 +9,13 @@ import React from 'react';
  * @param {string} piece
  * @param {string} pieceColor
  * @param {Number} index
+ * @param {bool} canMoveTo
  */
 const Tile = (props) => {
+    const tileContent = props.canMoveTo ?
+        (<div className="legalMove"/>) :
+        (<img className="chessPiece" src={props.pieceSource} alt={props.piece}/>);
+
     return (
         <div data-index={props.index} 
             data-tile-name={props.tileName} 
@@ -21,7 +26,7 @@ const Tile = (props) => {
             onMouseUp={props.releaseOnTile} 
             className={`col-1 tile ${props.tileColor}`}
         >
-            <img className="chessPiece" src={props.pieceSource} alt={props.piece}/>
+            {tileContent}
         </div>
     );
 };
