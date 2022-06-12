@@ -42,15 +42,18 @@ const CreateChessBoard = () => {
     };
 
     const PopulateTileList = () => {
-        let tiles = [];
+        let board = [];
         let index = 0;
         for(let i = 0; i < 8; i++){
             let [tileColor, otherTile] = SetColorTile(i);
+            let rows = [];
             for(let j = 0; j < 8; j++){
                 const [pieceColor, piece] = GetPieceData(i, j);
                 
-                tiles.push({
+                rows.push({
                     index: index,
+                    tileIndex: j,
+                    rowIndex: i,
                     tileColor: tileColor,
                     pieceSource: PieceMap.get(`${pieceColor}${piece}`),
                     tileName: `${LetterList[j]}${i + 1}`,
@@ -62,9 +65,11 @@ const CreateChessBoard = () => {
                 [tileColor, otherTile] = [otherTile, tileColor];
                 index++;
             };
+
+            board.push(rows);
         };
         
-        return tiles;
+        return board;
     };
 
     let playersTurnText = "It is Blacks turn!";
