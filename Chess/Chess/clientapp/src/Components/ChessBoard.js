@@ -18,7 +18,7 @@ const SetColorTile = (index) => {
 const CreateChessBoard = () => {
     const [tileList, setTileList] = useState([]);
     const [turnNumber, setTurnNumber] = useState(0);
-    const [turnHistory, setTurnHistory] = useState([])
+    const [turnHistory, setTurnHistory] = useState([]);
     
     useEffect(() => {
         setTileList(PopulateTileList());
@@ -61,8 +61,8 @@ const CreateChessBoard = () => {
     
                 [tileColor, otherTile] = [otherTile, tileColor];
                 index++;
-            }
-        }
+            };
+        };
         
         return tiles;
     };
@@ -70,7 +70,7 @@ const CreateChessBoard = () => {
     let playersTurnText = "It is Blacks turn!";
     if(turnNumber % 2 === 0){
         playersTurnText = "It is Whites turn!";
-    }
+    };
 
     return (
         <>
