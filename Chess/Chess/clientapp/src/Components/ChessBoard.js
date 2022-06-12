@@ -52,8 +52,8 @@ const CreateChessBoard = () => {
                 
                 rows.push({
                     index: index,
-                    tileIndex: j,
                     rowIndex: i,
+                    tileIndex: j,
                     tileColor: tileColor,
                     pieceSource: PieceMap.get(`${pieceColor}${piece}`),
                     tileName: `${LetterList[j]}${i + 1}`,

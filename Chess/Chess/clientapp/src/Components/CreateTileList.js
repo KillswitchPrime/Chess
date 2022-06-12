@@ -2,21 +2,21 @@ import React from 'react';
 import Tile from './Tile';
 
 const movePiece = (listOfTiles, indexOfTileMovedTo, indexOfTileMovedFrom, selectedPiece) => {
-    let updatedTileList = listOfTiles.map((element, i) => {
-        let tileData = {...element};
-        if(i === indexOfTileMovedTo){
-            tileData.pieceSource = selectedPiece.piecesource;
-            tileData.piece = selectedPiece.piece;
-            tileData.pieceColor = selectedPiece.piececolor;
-        }
-        if(i === indexOfTileMovedFrom){
-            tileData.pieceSource = "";
-            tileData.piece = "";
-            tileData.pieceColor = "";
-        };
-
-
-        return tileData;
+    let updatedTileList = listOfTiles.map(row => {
+        return row.map(tile => {
+            let tileData = {...tile};
+            if(tileData.index === indexOfTileMovedTo){
+                tileData.pieceSource = selectedPiece.piecesource;
+                tileData.piece = selectedPiece.piece;
+                tileData.pieceColor = selectedPiece.piececolor;
+            }
+            if(tileData.index === indexOfTileMovedFrom){
+                tileData.pieceSource = "";
+                tileData.piece = "";
+                tileData.pieceColor = "";
+            };
+            return tileData;
+        });
     });
 
     return updatedTileList;
@@ -78,22 +78,29 @@ const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHi
         };
     };
 
-    let tiles = tileList.map((element, index) =>
+    let tiles = tileList.map((row) =>
         {
-            return (<Tile
-                key={index}
-                mouseDownOnTile={mouseDownOnTile}
-                releaseOnTile={releaseOnTile}
-                index={index}
-                tileColor={element.tileColor}
-                pieceSource={element.pieceSource}
-                altText={`${element.pieceColor}${element.piece}`}
-                tileName={element.tileName}
-                piece={element.piece}
-                pieceColor={element.pieceColor}
-                canMoveTo={element.canMoveTo}
-            />);
-    });
+            return row.map((tile) => {
+                return (
+                    <Tile
+                        key={tile.index}
+                        mouseDownOnTile={mouseDownOnTile}
+                        releaseOnTile={releaseOnTile}
+                        index={tile.index}
+                        rowIndex={tile.rowIndex}
+                        tileIndex={tile.tileIndex}
+                        tileColor={tile.tileColor}
+                        pieceSource={tile.pieceSource}
+                        altText={`${tile.pieceColor}${tile.piece}`}
+                        tileName={tile.tileName}
+                        piece={tile.piece}
+                        pieceColor={tile.pieceColor}
+                        canMoveTo={tile.canMoveTo}
+                    />
+                );
+            });
+        }
+    );
     
     return tiles;
 };
