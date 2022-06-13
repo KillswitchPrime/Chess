@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
+import CalculateMove from './MoveCalculator';
 import Tile from './Tile';
 
-const movePiece = (listOfTiles, indexOfTileMovedTo, indexOfTileMovedFrom, selectedPiece) => {
+const movePiece = (listOfTiles, indexOfTileMovedTo, selectedPiece) => {
     let updatedTileList = listOfTiles.map(row => {
         return row.map(tile => {
             let tileData = {...tile};
@@ -10,7 +11,7 @@ const movePiece = (listOfTiles, indexOfTileMovedTo, indexOfTileMovedFrom, select
                 tileData.piece = selectedPiece.piece;
                 tileData.pieceColor = selectedPiece.piececolor;
             }
-            if(tileData.index === indexOfTileMovedFrom){
+            if(tileData.index === selectedPiece.index){
                 tileData.pieceSource = "";
                 tileData.piece = "";
                 tileData.pieceColor = "";
@@ -22,26 +23,34 @@ const movePiece = (listOfTiles, indexOfTileMovedTo, indexOfTileMovedFrom, select
     return updatedTileList;
 };
 
+const GetTileData = (dataset) => {
+    const {tileName, piece, piececolor, index, piecesource, row, tileIndex} = dataset;
+    const parsedIndex = parseInt(index);
+    const parsedRowIndex = parseInt(row);
+    const parsedTileIndex = parseInt(tileIndex);
+
+    return [tileName, piece, piececolor, parsedIndex, piecesource, parsedRowIndex, parsedTileIndex];
+};
+
 const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHistory) => {
-    let selectedPiece = null;
-    let currentColorTurn = turnNumber % 2 === 0 ? "White" : "Black";
+    const [selectedPiece, setSelectedPiece] = useState(null);
+    const currentColorTurn = turnNumber % 2 === 0 ? "White" : "Black";
 
     const releaseOnTile = (event) => {
         if(event.button === 2 || selectedPiece === null){
             return;
         };
 
-        const {tileName, piece, piececolor, index, piecesource} = event.currentTarget.dataset;
-        const parsedIndex = parseInt(index);
+        const [tileName, piece, piececolor, index, piecesource, row, tileIndex] = GetTileData(event.currentTarget.dataset);
 
-        if(selectedPiece.parsedIndex === parsedIndex){
+        if(selectedPiece.index === index || tileList.find(x => x.find(y => y.index === index)).canMoveTo === false){
             return;
         };
 
-        const updatedTileList = movePiece(tileList, parsedIndex, selectedPiece.parsedIndex, selectedPiece);
+        const updatedTileList = movePiece(tileList, index, selectedPiece);
 
         const selectedPieceCopy = {...selectedPiece};
-        selectedPiece = null;
+        setSelectedPiece(null);
         setTurnHistory(turnHistory => turnHistory.concat([{turnNumber: turnNumber + 1, move: `${selectedPieceCopy.tileName} -> ${tileName}`}]));
         setTurnNumber(turnNumber => turnNumber + 1);
         setTileList(updatedTileList);
@@ -52,30 +61,35 @@ const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHi
             return;
         };
 
-        const {tileName, piece, piececolor, index, piecesource} = event.currentTarget.dataset;
-        const parsedIndex = parseInt(index);
-
+        const [tileName, piece, piececolor, index, piecesource, row, tileIndex] = GetTileData(event.currentTarget.dataset);
+        
         if(piece === "" || piececolor !== currentColorTurn){
             return;
         };
 
-        if(selectedPiece !== null && parsedIndex !== selectedPiece.parsedIndex){
-            const updatedTileList = movePiece(tileList, parsedIndex, selectedPiece.parsedIndex, selectedPiece);
+        if(selectedPiece !== null && index !== selectedPiece.index && tileList.find(x => x.find(y => y.index === index)).canMoveTo){
+            const updatedTileList = movePiece(tileList, index, selectedPiece);
 
             const selectedPieceCopy = {...selectedPiece};
-            selectedPiece = null;
+            setSelectedPiece(null);
             setTurnHistory(turnHistory => turnHistory.concat([{turnNumber: turnNumber + 1, move: `${selectedPieceCopy.tileName} -> ${tileName}`}]));
             setTurnNumber(turnNumber => turnNumber + 1);
             setTileList(updatedTileList);
         };
 
-        selectedPiece = {
+        const legalMoveList = CalculateMove(tileList, index);
+
+        setSelectedPiece({
             tileName,
             piece,
             piececolor,
-            parsedIndex,
-            piecesource
-        };
+            index,
+            piecesource,
+            row,
+            tileIndex
+        });
+
+        setTileList(legalMoveList);
     };
 
     let tiles = tileList.map((row) =>

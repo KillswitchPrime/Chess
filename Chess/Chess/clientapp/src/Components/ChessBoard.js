@@ -8,7 +8,7 @@ import IsValidProp from './Validator';
 const LetterList = ['A','B','C','D','E','F','G','H'];
 
 const SetColorTile = (index) => {
-    const [tileName, otherTile] = index % 2 !== 0 ? 
+    const [tileName, otherTile] = index % 2 !== 0 ?
         ["lightTile", "darkTile"] : 
         ["darkTile", "lightTile"];
 
