@@ -4,67 +4,66 @@ const GetTileAtIndex = (list, index) => {
 
 const CalculateMove = (boardState, indexOfPiece) => {
     const boardStateCopy = [...boardState];
-    const piece = GetTileAtIndex(boardStateCopy, indexOfPiece).piece;
+    const piece = GetTileAtIndex(boardStateCopy, indexOfPiece);
 
-    switch(piece){
+    switch(piece.piece){
         case "Pawn":
-            return PawnMove(boardStateCopy, indexOfPiece);
+            return PawnMove(boardStateCopy, piece);
         case "Bishop":
-            return BishopMove(boardStateCopy, indexOfPiece);
+            return BishopMove(boardStateCopy, piece);
         case "Knight":
-            return KnightMove(boardStateCopy, indexOfPiece);
+            return KnightMove(boardStateCopy, piece);
         case "Rook":
-            return RookMove(boardStateCopy, indexOfPiece);
+            return RookMove(boardStateCopy, piece);
         case "Queen":
-            return QueenMove(boardStateCopy, indexOfPiece);
+            return QueenMove(boardStateCopy, piece);
         case "King":
-            return KingMove(boardStateCopy, indexOfPiece);
+            return KingMove(boardStateCopy, piece);
         default:
             return boardStateCopy;
     };
 };
 
-const PawnMove = (boardStateCopy, indexOfPiece) =>{
+const PawnMove = (boardStateCopy, piece) =>{
     return boardStateCopy;
 };
 
-const BishopMove = (boardStateCopy, indexOfPiece) =>{
-    const pieceColor = GetTileAtIndex(boardStateCopy, indexOfPiece).pieceColor;
+const BishopMove = (boardStateCopy, piece) =>{
+    const pieceToMove = piece;
 
-    const IsNotBlocked = (tileIndex) => {
-        const [pieceRow, pieceTile] = [GetTileAtIndex(boardStateCopy, indexOfPiece).rowIndex, GetTileAtIndex(boardStateCopy, indexOfPiece).tileIndex];
-        const [moveRow, moveTile] = [GetTileAtIndex(boardStateCopy, tileIndex).rowIndex, GetTileAtIndex(boardStateCopy, tileIndex).tileIndex];
+    const IsNotBlocked = (tileData) => {
+        const [pieceRow, pieceTile] = [pieceToMove.rowIndex, pieceToMove.tileIndex];
+        const [moveRow, moveTile] = [tileData.rowIndex, tileData.tileIndex];
 
-        const diagonalCheck1 = Math.abs(pieceRow - moveTile);
-        const diagonalCheck2 = Math.abs(pieceTile - moveRow)
+        const diagonalCheck1 = Math.abs(pieceRow - moveRow);
+        const diagonalCheck2 = Math.abs(pieceTile - moveTile);
 
         let canMoveTo = true;
         
-        if(diagonalCheck1 === diagonalCheck2){
-            for(let i = diagonalCheck1 - 1; i > 0; i--){
-                if(i < 0){
-                    return canMoveTo;
-                };
-
-                if(boardStateCopy.flatMap(x => x).find(x => x.rowIndex === i && x.tileIndex === i).piece !== ""){
-                    canMoveTo = false;
-                };
-            };
-
-            console.log(canMoveTo);
-            return canMoveTo;
+        if(diagonalCheck1 !== diagonalCheck2){
+            return false;
         };
 
-        return false;
+        console.log(diagonalCheck1, diagonalCheck2, tileData)
+
+        // for(let i = 0; i < diagonalCheck1; i--){
+
+        //     if(boardStateCopy.flatMap(x => x).find(x => x.rowIndex === i && x.tileIndex === i).piece !== ""){
+        //         canMoveTo = false;
+        //     };
+        // };
+
+        return canMoveTo;
+
     };
 
-    return boardStateCopy.map((element) => {
-        element.map(x => {
+    const updatedBoardState = boardStateCopy.map((element) => {
+        return element.map(x => {
             let tileData = {...x};
             let canMoveTo = false;
-    
-            if(tileData.pieceColor !== pieceColor && 
-                IsNotBlocked(tileData.index)
+
+            if(tileData.pieceColor !== pieceToMove.pieceColor && 
+                IsNotBlocked(tileData)
             ){
                 canMoveTo = true;
             };
@@ -73,21 +72,25 @@ const BishopMove = (boardStateCopy, indexOfPiece) =>{
             return tileData;
         });
     });
+
+    console.log(updatedBoardState);
+
+    return updatedBoardState;
 };
 
-const KnightMove = (boardStateCopy, indexOfPiece) =>{
+const KnightMove = (boardStateCopy, piece) =>{
     return boardStateCopy;
 };
 
-const RookMove = (boardStateCopy, indexOfPiece) =>{
+const RookMove = (boardStateCopy, piece) =>{
     return boardStateCopy;
 };
 
-const QueenMove = (boardStateCopy, indexOfPiece) =>{
+const QueenMove = (boardStateCopy, piece) =>{
     return boardStateCopy;
 };
 
-const KingMove = (boardStateCopy, indexOfPiece) =>{
+const KingMove = (boardStateCopy, piece) =>{
     return boardStateCopy;
 };
 

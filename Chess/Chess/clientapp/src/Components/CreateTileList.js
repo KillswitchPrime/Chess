@@ -5,7 +5,9 @@ import Tile from './Tile';
 const movePiece = (listOfTiles, indexOfTileMovedTo, selectedPiece) => {
     let updatedTileList = listOfTiles.map(row => {
         return row.map(tile => {
+            
             let tileData = {...tile};
+
             if(tileData.index === indexOfTileMovedTo){
                 tileData.pieceSource = selectedPiece.piecesource;
                 tileData.piece = selectedPiece.piece;
@@ -16,6 +18,8 @@ const movePiece = (listOfTiles, indexOfTileMovedTo, selectedPiece) => {
                 tileData.piece = "";
                 tileData.pieceColor = "";
             };
+
+            tileData.canMoveTo = false;
             return tileData;
         });
     });
@@ -43,7 +47,7 @@ const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHi
 
         const [tileName, piece, piececolor, index, piecesource, row, tileIndex] = GetTileData(event.currentTarget.dataset);
 
-        if(selectedPiece.index === index || tileList.find(x => x.find(y => y.index === index)).canMoveTo === false){
+        if(selectedPiece.index === index || tileList.flatMap(x => x).find(y => y.index === index).canMoveTo === false){
             return;
         };
 
@@ -67,7 +71,7 @@ const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHi
             return;
         };
 
-        if(selectedPiece !== null && index !== selectedPiece.index && tileList.find(x => x.find(y => y.index === index)).canMoveTo){
+        if(selectedPiece !== null && index !== selectedPiece.index && tileList.flatMap(x => x).find(y => y.index === index).canMoveTo === true){
             const updatedTileList = movePiece(tileList, index, selectedPiece);
 
             const selectedPieceCopy = {...selectedPiece};
