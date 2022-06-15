@@ -24,10 +24,11 @@ const Tile = (props) => {
         <div data-index={props.index} 
             data-tile-name={props.tileName} 
             data-piece={props.piece}
-            data-piececolor={props.pieceColor}
-            data-piecesource={props.pieceSource}
+            data-piece-color={props.pieceColor}
+            data-piece-source={props.pieceSource}
             data-row={props.rowIndex}
             data-tile-index={props.tileIndex}
+            data-can-move-to={props.canMoveTo}
             onMouseDown={props.mouseDownOnTile} 
             onMouseUp={props.releaseOnTile} 
             className={`col-1 tile ${props.tileColor}`}

@@ -9,9 +9,9 @@ const movePiece = (listOfTiles, indexOfTileMovedTo, selectedPiece) => {
             let tileData = {...tile};
 
             if(tileData.index === indexOfTileMovedTo){
-                tileData.pieceSource = selectedPiece.piecesource;
+                tileData.pieceSource = selectedPiece.pieceSource;
                 tileData.piece = selectedPiece.piece;
-                tileData.pieceColor = selectedPiece.piececolor;
+                tileData.pieceColor = selectedPiece.pieceColor;
             }
             if(tileData.index === selectedPiece.index){
                 tileData.pieceSource = "";
@@ -28,12 +28,12 @@ const movePiece = (listOfTiles, indexOfTileMovedTo, selectedPiece) => {
 };
 
 const GetTileData = (dataset) => {
-    const {tileName, piece, piececolor, index, piecesource, row, tileIndex} = dataset;
+    const {tileName, piece, pieceColor, index, pieceSource, row, tileIndex, canMoveTo} = dataset;
     const parsedIndex = parseInt(index);
     const parsedRowIndex = parseInt(row);
     const parsedTileIndex = parseInt(tileIndex);
 
-    return [tileName, piece, piececolor, parsedIndex, piecesource, parsedRowIndex, parsedTileIndex];
+    return [tileName, piece, pieceColor, parsedIndex, pieceSource, parsedRowIndex, parsedTileIndex, canMoveTo];
 };
 
 const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHistory) => {
@@ -45,12 +45,12 @@ const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHi
             return;
         };
 
-        const [tileName, piece, piececolor, index, piecesource, row, tileIndex] = GetTileData(event.currentTarget.dataset);
+        const [tileName, piece, pieceColor, index, pieceSource, row, tileIndex, canMoveTo] = GetTileData(event.currentTarget.dataset);
 
-        if(selectedPiece.index === index || tileList.flatMap(x => x).find(y => y.index === index).canMoveTo === false){
+        if(selectedPiece.index === index || canMoveTo !== true){
             return;
         };
-
+        
         const updatedTileList = movePiece(tileList, index, selectedPiece);
 
         const selectedPieceCopy = {...selectedPiece};
@@ -65,13 +65,13 @@ const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHi
             return;
         };
 
-        const [tileName, piece, piececolor, index, piecesource, row, tileIndex] = GetTileData(event.currentTarget.dataset);
+        const [tileName, piece, pieceColor, index, pieceSource, row, tileIndex, canMoveTo] = GetTileData(event.currentTarget.dataset);
         
-        if(piece === "" || piececolor !== currentColorTurn){
+        if(piece === "" || pieceColor !== currentColorTurn){
             return;
         };
 
-        if(selectedPiece !== null && index !== selectedPiece.index && tileList.flatMap(x => x).find(y => y.index === index).canMoveTo === true){
+        if(selectedPiece !== null && index !== selectedPiece.index && canMoveTo === true){
             const updatedTileList = movePiece(tileList, index, selectedPiece);
 
             const selectedPieceCopy = {...selectedPiece};
@@ -86,9 +86,9 @@ const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHi
         setSelectedPiece({
             tileName,
             piece,
-            piececolor,
+            pieceColor,
             index,
-            piecesource,
+            pieceSource,
             row,
             tileIndex
         });

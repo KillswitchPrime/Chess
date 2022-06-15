@@ -44,8 +44,6 @@ const BishopMove = (boardStateCopy, piece) =>{
             return false;
         };
 
-        console.log(diagonalCheck1, diagonalCheck2, tileData)
-
         // for(let i = 0; i < diagonalCheck1; i--){
 
         //     if(boardStateCopy.flatMap(x => x).find(x => x.rowIndex === i && x.tileIndex === i).piece !== ""){
@@ -72,8 +70,6 @@ const BishopMove = (boardStateCopy, piece) =>{
             return tileData;
         });
     });
-
-    console.log(updatedBoardState);
 
     return updatedBoardState;
 };
