@@ -24,6 +24,12 @@ const CalculateMove = (boardState, indexOfPiece) => {
     };
 };
 
+/** TODO
+ * Needs to handle en passant
+ * Needs to handle reaching end of board
+ * Needs to handle pin
+ * Needs to handle check
+ */
 const PawnMove = (boardStateCopy, piece) =>{
     const pieceToMove = piece;
 
@@ -75,6 +81,11 @@ const PawnMove = (boardStateCopy, piece) =>{
     return legalMoves;
 };
 
+/** TODO
+ * Needs to handle pin
+ * Needs to handle check
+ * Needs to handle blocked
+ */
 const BishopMove = (boardStateCopy, piece) =>{
     const pieceToMove = piece;
 
@@ -125,6 +136,11 @@ const KnightMove = (boardStateCopy, piece) =>{
     return boardStateCopy;
 };
 
+/** TODO
+ * Needs to handle pin
+ * Needs to handle check
+ * Needs to handle blocked
+ */
 const RookMove = (boardStateCopy, piece) =>{
     const pieceToMove = piece;
 
@@ -171,6 +187,11 @@ const RookMove = (boardStateCopy, piece) =>{
     return updatedBoardState;
 };
 
+/** TODO
+ * Needs to handle pin
+ * Needs to handle check
+ * Needs to handle blocked
+ */
 const QueenMove = (boardStateCopy, piece) =>{
     const pieceToMove = piece;
 
