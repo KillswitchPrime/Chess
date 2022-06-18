@@ -1,85 +1,93 @@
-const LetterList = ['A','B','C','D','E','F','G','H'];
-
-const GetRowNumber = (tileName) => {
-    return Number.parseInt(tileName.substring(1));
-};
+const GetTileAtIndex = (list, index) => {
+    return list.flatMap(x => x).find(x => x.index === index);
+}; 
 
 const CalculateMove = (boardState, indexOfPiece) => {
     const boardStateCopy = [...boardState];
-    const piece = boardStateCopy[indexOfPiece].piece;
+    const piece = GetTileAtIndex(boardStateCopy, indexOfPiece);
 
-    switch(piece){
+    switch(piece.piece){
         case "Pawn":
-            return PawnMove(boardStateCopy, indexOfPiece);
+            return PawnMove(boardStateCopy, piece);
         case "Bishop":
-            return BishopMove(boardStateCopy, indexOfPiece);
+            return BishopMove(boardStateCopy, piece);
         case "Knight":
-            return KnightMove(boardStateCopy, indexOfPiece);
+            return KnightMove(boardStateCopy, piece);
         case "Rook":
-            return RookMove(boardStateCopy, indexOfPiece);
+            return RookMove(boardStateCopy, piece);
         case "Queen":
-            return QueenMove(boardStateCopy, indexOfPiece);
+            return QueenMove(boardStateCopy, piece);
         case "King":
-            return KingMove(boardStateCopy, indexOfPiece);
+            return KingMove(boardStateCopy, piece);
         default:
             return boardStateCopy;
     };
 };
 
-const PawnMove = (boardStateCopy, indexOfPiece) =>{
-
+const PawnMove = (boardStateCopy, piece) =>{
+    return boardStateCopy;
 };
 
-const BishopMove = (boardStateCopy, indexOfPiece) =>{
-    const pieceColor = boardStateCopy[indexOfPiece].pieceColor;
+const BishopMove = (boardStateCopy, piece) =>{
+    const pieceToMove = piece;
 
-    const IsDiagonal = (tileIndex) => {
-        const tileRowNumber = GetRowNumber(boardStateCopy[tileIndex].tileName);
-        if((tileIndex - indexOfPiece % 7 === 0 && tileIndex <= ((tileRowNumber - 1) * (indexOfPiece + 8 - (tileRowNumber - 1)))) || // DONE
-            (tileIndex - indexOfPiece % 9 === 0 && tileIndex <= ((tileRowNumber) * (indexOfPiece + 8 - tileRowNumber))) || //NOT DONE!
-            indexOfPiece - tileIndex % 7 === 0 || //NOT DONE!
-            indexOfPiece - tileIndex % 9 === 0  //NOT DONE!
-        ){
-            return true;
-        }
+    const IsNotBlocked = (tileData) => {
+        const [pieceRow, pieceTile] = [pieceToMove.rowIndex, pieceToMove.tileIndex];
+        const [moveRow, moveTile] = [tileData.rowIndex, tileData.tileIndex];
 
-        return false;
+        const diagonalCheck1 = Math.abs(pieceRow - moveRow);
+        const diagonalCheck2 = Math.abs(pieceTile - moveTile);
+
+        let canMoveTo = true;
+        
+        if(diagonalCheck1 !== diagonalCheck2){
+            return false;
+        };
+
+        // for(let i = 0; i < diagonalCheck1; i--){
+
+        //     if(boardStateCopy.flatMap(x => x).find(x => x.rowIndex === i && x.tileIndex === i).piece !== ""){
+        //         canMoveTo = false;
+        //     };
+        // };
+
+        return canMoveTo;
+
     };
 
-    const IsNotBlocked = (tileIndex) => {
+    const updatedBoardState = boardStateCopy.map((element) => {
+        return element.map(x => {
+            let tileData = {...x};
+            let canMoveTo = false;
 
-    };
-
-    return boardStateCopy.map((element, index) => {
-        let tileData = {...element};
-        let canMoveTo = false;
-
-        if(tileData.pieceColor !== pieceColor && 
-            IsDiagonal(tileData.index) &&
-            IsNotBlocked(tileData.index)
-        ){
-            canMoveTo = true;
-        }
-
-        tileData.canMoveTo = canMoveTo;
-        return tileData;
+            if(tileData.pieceColor !== pieceToMove.pieceColor && 
+                IsNotBlocked(tileData)
+            ){
+                canMoveTo = true;
+            };
+    
+            tileData.canMoveTo = canMoveTo;
+            return tileData;
+        });
     });
+
+    return updatedBoardState;
 };
 
-const KnightMove = (boardStateCopy, indexOfPiece) =>{
-
+const KnightMove = (boardStateCopy, piece) =>{
+    return boardStateCopy;
 };
 
-const RookMove = (boardStateCopy, indexOfPiece) =>{
-
+const RookMove = (boardStateCopy, piece) =>{
+    return boardStateCopy;
 };
 
-const QueenMove = (boardStateCopy, indexOfPiece) =>{
-
+const QueenMove = (boardStateCopy, piece) =>{
+    return boardStateCopy;
 };
 
-const KingMove = (boardStateCopy, indexOfPiece) =>{
-
+const KingMove = (boardStateCopy, piece) =>{
+    return boardStateCopy;
 };
 
 export default CalculateMove;

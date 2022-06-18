@@ -12,16 +12,23 @@ import React from 'react';
  * @param {bool} canMoveTo
  */
 const Tile = (props) => {
-    const tileContent = props.canMoveTo ?
-        (<div className="legalMove"/>) :
-        (<img className="chessPiece" src={props.pieceSource} alt={props.piece}/>);
+    let tileContent = (<img className="chessPiece" src={props.pieceSource} alt={props.piece}/>);
+        
+    if(props.canMoveTo && props.piece === ""){
+        tileContent = (<div className="legalMove"/>);
+    }else if (props.canMoveTo){
+        tileContent = (<img className="chessPieceTake" src={props.pieceSource} alt={props.piece}/>);
+    };
 
     return (
         <div data-index={props.index} 
             data-tile-name={props.tileName} 
             data-piece={props.piece}
-            data-piececolor={props.pieceColor}
-            data-piecesource={props.pieceSource}
+            data-piece-color={props.pieceColor}
+            data-piece-source={props.pieceSource}
+            data-row={props.rowIndex}
+            data-tile-index={props.tileIndex}
+            data-can-move-to={props.canMoveTo}
             onMouseDown={props.mouseDownOnTile} 
             onMouseUp={props.releaseOnTile} 
             className={`col-1 tile ${props.tileColor}`}
