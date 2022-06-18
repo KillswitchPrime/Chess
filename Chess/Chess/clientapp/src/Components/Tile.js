@@ -28,7 +28,7 @@ const Tile = (props) => {
             data-piece-source={props.pieceSource}
             data-row={props.rowIndex}
             data-tile-index={props.tileIndex}
-            data-can-move-to={props.canMoveTo}
+            data-can-move-to={props.canMoveTo ? "1" : ""}
             onMouseDown={props.mouseDownOnTile} 
             onMouseUp={props.releaseOnTile} 
             className={`col-1 tile ${props.tileColor}`}

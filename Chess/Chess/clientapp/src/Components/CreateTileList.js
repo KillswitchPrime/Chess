@@ -32,8 +32,9 @@ const GetTileData = (dataset) => {
     const parsedIndex = parseInt(index);
     const parsedRowIndex = parseInt(row);
     const parsedTileIndex = parseInt(tileIndex);
+    const parsedCanMoveTo = canMoveTo === "1" ? true : false;
 
-    return [tileName, piece, pieceColor, parsedIndex, pieceSource, parsedRowIndex, parsedTileIndex, canMoveTo];
+    return [tileName, piece, pieceColor, parsedIndex, pieceSource, parsedRowIndex, parsedTileIndex, parsedCanMoveTo];
 };
 
 const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHistory) => {
@@ -46,8 +47,8 @@ const CreateTiles = (tileList, setTileList, turnNumber, setTurnNumber, setTurnHi
         };
 
         const [tileName, piece, pieceColor, index, pieceSource, row, tileIndex, canMoveTo] = GetTileData(event.currentTarget.dataset);
-
-        if(selectedPiece.index === index || canMoveTo !== true){
+        
+        if(selectedPiece.index === index || canMoveTo === false){
             return;
         };
         
